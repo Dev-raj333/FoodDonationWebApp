@@ -1,0 +1,69 @@
+﻿@model IPagedList<FoodDonationWebApp.Models.RecipientRequest>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "";
+    int serialNumber = 1 + ((Model.PageNumber - 1) * Model.PageSize);
+}
+
+<h2>Recipiant Request</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>SN</th>
+            <th>Recipient</th>
+            <th>Food Type</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model.Count != 0)
+        {
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@serialNumber</td>
+                    <td>@request.Recipient.FirstName + @request.Recipient.LastName</td>
+                    <td>@request.RequestedFoodType</td>
+                    <td>@request.Quantity</td>
+                    <td>@request.RequestStatus</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@request.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-page="Details" asp-route-id="@request.Id" class="btn btn-info btn-sm">View</a>
+                        <a asp-page="Delete" asp-route-id="@request.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                serialNumber++;
+            }
+        }
+        else
+        {
+        <tr>
+            <td colspan="6" class="text-center">No records found</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="d-flex justify-content-end">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    MaximumPageNumbersToDisplay = 10,
+    LinkToFirstPageFormat = "«",
+    LinkToPreviousPageFormat = "‹",
+    LinkToNextPageFormat = "›",
+    LinkToLastPageFormat = "»",
+    ContainerDivClasses = new[] { "pagination-container" },
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    ActiveLiElementClass = "active"
+})
+</div>

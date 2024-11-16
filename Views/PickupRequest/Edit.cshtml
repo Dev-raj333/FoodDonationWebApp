@@ -1,0 +1,58 @@
+﻿@model FoodDonationWebApp.Models.PickupRequest
+
+@{
+    ViewData["Title"] = "Edit Pickup Status";
+}
+
+<h2>Edit Pickup Status</h2>
+
+<form asp-action="Edit" method="post">
+    <!-- Hidden fields for IDs -->
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="DonationID" />
+    <input type="hidden" asp-for="Donation.DonorID" />
+    <input type="hidden" asp-for="VolunteerID" />
+    <input type="hidden" asp-for="Volunteer.FirstName" />
+    <input type="hidden" asp-for="Donation.Description" />
+
+    <!-- Display other fields as read-only inputs -->
+    <div class="form-group">
+        <label asp-for="Donation.FoodType" class="control-label">Food Type</label>
+        <input asp-for="Donation.FoodType" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Donor Name</label>
+        <input type="text" value="@($"{Model.Donation.Donor.FirstName} {Model.Donation.Donor.LastName}")" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Volunteer Name</label>
+        <input type="text" value="@($"{Model.Volunteer.FirstName} {Model.Volunteer.LastName}")" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PickupTime" class="control-label"></label>
+        <input asp-for="PickupTime" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Notes" class="control-label"></label>
+        <textarea asp-for="Notes" class="form-control" readonly></textarea>
+    </div>
+
+    <!-- Editable PickupStatus field -->
+    <div class="form-group mb-2">
+        <label asp-for="PickupStatus" class="control-label"></label>
+        <select asp-for="PickupStatus" class="form-control" asp-items="@(new SelectList(Enum.GetValues(typeof(FoodDonationWebApp.Models.PickupStatus))))">
+            <option value="">Select Status</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

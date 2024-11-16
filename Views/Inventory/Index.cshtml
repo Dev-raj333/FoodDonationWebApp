@@ -1,0 +1,57 @@
+﻿@model IPagedList<FoodDonationWebApp.Models.Inventory>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "Inventory";
+    int serialNumber = 1 + ((Model.PageNumber - 1) * Model.PageSize);
+}
+<h2>Inventory List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>SN</th>
+            <th>Food Type</th>
+            <th>Quantity</th>
+            <th>Description</th>
+            <th>Expiry Date</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@serialNumber</td>
+                <td>@item.FoodType</td>
+                <td>@item.Quantity</td>
+                <td>@item.Description</td>
+                <td>@item.ExpiryDate?.ToString("yyyy-MM-dd")</td>
+                <td>@item.Location</td>
+            </tr>
+            serialNumber++;
+        }
+    </tbody>
+</table>
+<div class="d-flex justify-content-end">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    MaximumPageNumbersToDisplay = 10,
+    LinkToFirstPageFormat = "«",
+    LinkToPreviousPageFormat = "‹",
+    LinkToNextPageFormat = "›",
+    LinkToLastPageFormat = "»",
+    ContainerDivClasses = new[] { "pagination-container" },
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    ActiveLiElementClass = "active"
+})
+</div>
+

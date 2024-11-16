@@ -1,0 +1,67 @@
+﻿@model IPagedList<FoodDonationWebApp.Models.PickupRequest>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "Pickup List";
+    int serialNumber = 1 + ((Model.PageNumber - 1) * Model.PageSize);
+}
+<h1>Pickup Request List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>SN</th>
+            <th>Donation</th>
+            <th>Volunteer</th>
+            <th>Pickup Time</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var pickupRequest in Model)
+        {
+            <tr>
+                <td>@serialNumber</td>
+                <td>@pickupRequest.Donation.FoodType</td>
+                <td>@pickupRequest.Volunteer.FirstName</td>
+                <td>@pickupRequest.PickupTime.ToString("g")</td>
+                <td>@pickupRequest.Notes</td>
+                <td>@pickupRequest.PickupStatus</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Details</a>
+                    @if (User.IsInRole("Volunture"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Edit</a>
+
+                        <form asp-action="Delete" asp-route-id="@pickupRequest.Id" method="post" style="display:inline;"
+                              onsubmit="return confirm('Are you sure you want to cancel this request?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+            serialNumber++;
+        } 
+    </tbody>
+</table>
+<div class="d-flex justify-content-end">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    MaximumPageNumbersToDisplay = 10,
+    LinkToFirstPageFormat = "«",
+    LinkToPreviousPageFormat = "‹",
+    LinkToNextPageFormat = "›",
+    LinkToLastPageFormat = "»",
+    ContainerDivClasses = new[] { "pagination-container" },
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    ActiveLiElementClass = "active"
+})
+</div>

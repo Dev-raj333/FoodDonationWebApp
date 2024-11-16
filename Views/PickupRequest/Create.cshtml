@@ -1,0 +1,56 @@
+﻿@using FoodDonationWebApp.ViewModels
+@model PickupRequestVM
+
+@{
+    ViewData["Title"] = "Pickup Request Form";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create">
+    @* <input type="hidden" asp-for="Id" /> *@
+    <input type="hidden" asp-for="DonationID" />
+
+    <div class="form-group">
+        <label asp-for="VolunteerID" class="control-label">Select Volunteer</label>
+        <select asp-for="VolunteerID" class="form-control">
+            <option value="">-- Select Volunteer --</option>
+            @foreach (var volunteer in ViewBag.Volunteers)
+            {
+                <option value="@volunteer.Id">@($"{volunteer.FirstName} {volunteer.LastName}")</option>
+            }
+        </select>
+        <span asp-validation-for="VolunteerID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PickupTime" class="control-label">Pickup Time</label>
+        <input asp-for="PickupTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="PickupTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Notes" class="control-label">Notes</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-4">
+        <label asp-for="PickupStatus" class="control-label">Pickup Status</label>
+        <select asp-for="PickupStatus" class="form-control" asp-items="Html.GetEnumSelectList<FoodDonationWebApp.Models.PickupStatus>()"></select>
+        <span asp-validation-for="PickupStatus" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-4 mb-2">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<a asp-action="Index" asp-controller="Donation" class="btn btn-secondary">Back to List</a>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
