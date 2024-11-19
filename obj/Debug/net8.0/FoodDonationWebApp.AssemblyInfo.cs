@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoodDonationWebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7aa5879708d117ff67a2ff1a0ea7c50732a4927a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70f9b69afb0c906b22716a83de1fe6315821be88")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoodDonationWebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoodDonationWebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

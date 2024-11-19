@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodDonationWebApp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDonationWebApp.ViewModel
 {
@@ -32,14 +33,6 @@ namespace FoodDonationWebApp.ViewModel
         Pending,
         PickedUp,
         Completed
-    }
-
-    public enum FoodType
-    {
-        Fresh,
-        Packaged,
-        Bakery,
-        Other
     }
 
 }

@@ -10,5 +10,7 @@ namespace FoodDonationWebApp.Models
         public string? Address { get; set; }
         
         public string? Profile { get; set; }
+
+        public ICollection<RecipientRequest> RecipientRequests { get; set; } = new List<RecipientRequest>();
     }
 }

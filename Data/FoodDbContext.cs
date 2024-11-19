@@ -21,6 +21,12 @@ namespace FoodDonationWebApp.Data
         { 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<RecipientRequest>()
+                .HasOne(r => r.Recipient)
+                .WithMany(u => u.RecipientRequests)
+                .HasForeignKey(r => r.RecipientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

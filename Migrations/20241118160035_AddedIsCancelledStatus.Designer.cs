@@ -4,6 +4,7 @@ using FoodDonationWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDonationWebApp.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    partial class FoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118160035_AddedIsCancelledStatus")]
+    partial class AddedIsCancelledStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,6 +299,7 @@ namespace FoodDonationWebApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RequestedFoodType")
+                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -493,7 +497,7 @@ namespace FoodDonationWebApp.Migrations
             modelBuilder.Entity("FoodDonationWebApp.Models.RecipientRequest", b =>
                 {
                     b.HasOne("FoodDonationWebApp.Models.ApplicationUser", "Recipient")
-                        .WithMany("RecipientRequests")
+                        .WithMany()
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -550,11 +554,6 @@ namespace FoodDonationWebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FoodDonationWebApp.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("RecipientRequests");
                 });
 #pragma warning restore 612, 618
         }

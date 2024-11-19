@@ -1,6 +1,7 @@
 ﻿using FoodDonationWebApp.Data;
 using FoodDonationWebApp.Models;
 using FoodDonationWebApp.Services.Interfaces;
+using FoodDonationWebApp.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using X.PagedList.Extensions;
@@ -16,15 +17,22 @@ namespace FoodDonationWebApp.Services.Implementation
             _dbContext = dbContext;
         }
 
-
-        public Task AddAsync(RecipientRequest request)
-        {
-            throw new NotImplementedException();
+        public Task AddRecpiantRequestAsync(RecipientRequest request)
+        { 
+            _dbContext.RecipientRequests.Add(request);
+            return _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var ecipiantRequest = await _dbContext.RecipientRequests.FindAsync(id);
+            if (ecipiantRequest != null)
+            {
+                ecipiantRequest.IsCancelled = true;
+                ecipiantRequest.RequestStatus = Models.RequestStatus.Rejected;
+                await _dbContext.SaveChangesAsync();
+            }
+
         }
 
         public async Task<IPagedList<RecipientRequest>> GetAllRecipentRequest(int pageNumber, int pageSize)
@@ -35,14 +43,47 @@ namespace FoodDonationWebApp.Services.Implementation
             return recipientRequest.ToPagedList(pageNumber, pageSize);
         }
 
-        public Task<RecipientRequest> GetByIdAsync(int id)
+        public async Task<RecipientRequest> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var recipiantRequest = await _dbContext.RecipientRequests
+                .Where(rr => rr.IsCancelled == false)
+                .Include(r => r.Recipient).FirstOrDefaultAsync(rr => rr.Id == id);
+
+            if (recipiantRequest == null)
+                return null;
+            return recipiantRequest;
         }
 
-        public Task UpdateAsync(RecipientRequest request)
+        public async Task UpdateAsync(RecipientRequest request)
         {
-            throw new NotImplementedException();
+            // Fetch matching records from the database
+            var recipientRequests = await _dbContext.RecipientRequests
+                                                    .Where(r => r.Id == request.Id)
+                                                    .ToListAsync();
+
+            if (!recipientRequests.Any())
+            {
+                return; // Exit if no matching records
+            }
+
+            // Update records based on the request
+            foreach (var recipientRequest in recipientRequests)
+            {
+                recipientRequest.Quantity = request.Quantity;
+                recipientRequest.RequestStatus = request.RequestStatus;
+            }
+
+            // Handle special status cases
+            if (request.RequestStatus == RequestStatus.Rejected)
+            {
+                await DeleteAsync(request.Id); // Ensure DeleteAsync is awaited
+            }
+            else if (request.RequestStatus == RequestStatus.Approved)
+            {
+                _dbContext.RecipientRequests.UpdateRange(recipientRequests);
+                await _dbContext.SaveChangesAsync();
+            }
         }
+
     }
 }

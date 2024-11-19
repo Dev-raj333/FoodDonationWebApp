@@ -2,7 +2,7 @@
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @{
-    ViewData["Title"] = "";
+    ViewData["Title"] = "Recipient";
     int serialNumber = 1 + ((Model.PageNumber - 1) * Model.PageSize);
 }
 
@@ -16,7 +16,10 @@
             <th>Food Type</th>
             <th>Quantity</th>
             <th>Status</th>
-            <th>Actions</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Actions</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -26,15 +29,16 @@
             {
                 <tr>
                     <td>@serialNumber</td>
-                    <td>@request.Recipient.FirstName + @request.Recipient.LastName</td>
+                    <td>@request.Recipient.FirstName @request.Recipient.LastName</td>
                     <td>@request.RequestedFoodType</td>
                     <td>@request.Quantity</td>
                     <td>@request.RequestStatus</td>
-                    <td>
-                        <a asp-page="Edit" asp-route-id="@request.Id" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-page="Details" asp-route-id="@request.Id" class="btn btn-info btn-sm">View</a>
-                        <a asp-page="Delete" asp-route-id="@request.Id" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-warning btn-sm">Edit</a>
+                        </td>
+                    }
                 </tr>
                 serialNumber++;
             }
