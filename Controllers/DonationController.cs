@@ -18,19 +18,21 @@ namespace FoodDonationWebApp.Controllers
             _donation = donation;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? pageSize)
         {
+            int pageNumber = page ?? 1;
+            int itemsPerPage = pageSize ?? 10;
             var user = await _userManager.GetUserAsync(User);
             var userId = user.Id;
 
             if (User.IsInRole("Admin"))
             {
-                var donations = await _donation.GetAllDonationsAsync();
+                var donations = await _donation.GetAllDonationsAsync(pageNumber, itemsPerPage);
                 return View(donations);
             }
             else if (User.IsInRole("Doner"))
             {
-                var donations = await _donation.GetDonationsByDonorIdAsync(userId);
+                var donations = await _donation.GetDonationsByDonorIdAsync(pageNumber, itemsPerPage,userId);
                 return View(donations);
             }
 
@@ -50,7 +52,7 @@ namespace FoodDonationWebApp.Controllers
         [Authorize(Roles = "Doner")]
         public IActionResult Create()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Retrieve the logged-in user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var viewModel = new DonationCreateVM
             {
                 DonorID = userId

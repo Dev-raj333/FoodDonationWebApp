@@ -264,3 +264,5 @@ D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\obj\Debug\net8.0\refint\FoodDona
 D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\obj\Debug\net8.0\FoodDonationWebApp.pdb
 D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\obj\Debug\net8.0\FoodDonationWebApp.genruntimeconfig.cache
 D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\obj\Debug\net8.0\ref\FoodDonationWebApp.dll
+D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\bin\Debug\net8.0\OsmSharp.dll
+D:\Dotnet\FoodDonationWebApp\FoodDonationWebApp\bin\Debug\net8.0\protobuf-net.dll

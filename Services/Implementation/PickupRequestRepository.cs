@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using X.PagedList.Extensions;
 
-
-
 namespace FoodDonationWebApp.Services.Implementation
 {
     public class PickupRequestRepository : IPickupRequestRepository
@@ -44,10 +42,8 @@ namespace FoodDonationWebApp.Services.Implementation
 
             if (pickupRequest == null)
                 return null;
-
             return pickupRequest;
         }
-
         public async Task AddPickupRequestAsync(PickupRequest pickupRequestVm)
         {
             
@@ -70,13 +66,22 @@ namespace FoodDonationWebApp.Services.Implementation
             if (pickupRequestVm.PickupStatus == PickupStatus.Cancelled)
             {
                 DeletePickupRequestAsync(pickupRequestVm.Id);
+            }else if(pickupRequestVm.PickupStatus == PickupStatus.PickedUp)
+            {
+                var donation = await _context.Donations.FindAsync(pickupRequestVm.DonationID);
+                if (donation != null)
+                {
+                    donation.Status = DonationStatus.PickedUp;
+                }
+                    _context.Entry(pickupRequest).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
             }
             else if (pickupRequestVm.PickupStatus == PickupStatus.Completed)
             {
                 var donation = await _context.Donations.FindAsync(pickupRequestVm.DonationID);
                 if (donation != null)
                 {
-                    donation.Status = DonationStatus.PickedUp;
+                    donation.Status = DonationStatus.Completed;
                     var invetoryItem = new Inventory
                     {
                         FoodType = donation.FoodType,

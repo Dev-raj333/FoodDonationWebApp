@@ -28,6 +28,7 @@ namespace FoodDonationWebApp.Models
     public enum PickupStatus
     {
         Scheduled,
+        PickedUp,
         Completed,
         Cancelled
     }

@@ -28,6 +28,7 @@ namespace FoodDonationWebApp
             services.AddScoped<IPickupRequestRepository, PickupRequestRepository>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<IRecipientRequestRepository, RecipientRequestRepository>();
+            services.AddScoped<IDropRequestRepository, DropRequestRepository>();
 
             services.ConfigureApplicationCookie(o =>
             {

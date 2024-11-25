@@ -33,7 +33,7 @@
                             <ul class="submenu">
                                 <li><a asp-area="" asp-controller="Donation" asp-action="Index">Donations List</a></li>
                                 <li><a asp-area="" asp-controller="PickupRequest" asp-action="Index">Pickup Request</a></li>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Policy">Drop Request</a></li>
+                                <li><a asp-area="" asp-controller="DropRequest" asp-action="Index">Drop Request</a></li>
                             </ul>
                         </li>
                         <li class="has-submenu">
@@ -47,10 +47,11 @@
                             <a asp-controller="Auth" asp-action="List">Inventory</a>
                             <ul class="submenu">
                                  <li><a asp-area="" asp-controller="Inventory" asp-action="Index">Inventory List</a></li>
-                            </ul>
+                                 <li><a asp-area="" asp-controller="Inventory" asp-action="AllocateFood">Allocated List</a></li>
+                             </ul>
                         </li>
-                    <li><a asp-area="" asp-controller="RecipientRequest" asp-action="Index">Recipiant Request</a></li>
-
+                        <li><a asp-area="" asp-controller="RecipientRequest" asp-action="Index">Recipiant Request</a></li>
+                    
                     }
                     else if (User.IsInRole("Doner"))
                     {
@@ -74,7 +75,7 @@
                             <a href="#">Tasks</a>
                             <ul class="submenu">
                             <li><a asp-area="" asp-controller="PickupRequest" asp-action="Index">Pickup Tasks</a></li>
-                                <li><a asp-area="" asp-controller="Volunteer" asp-action="ViewDropoffTasks">Dropoff Tasks</a></li>
+                                <li><a asp-area="" asp-controller="DropRequest" asp-action="Index">Dropoff Tasks</a></li>
                             </ul>
                         </li>
                     }

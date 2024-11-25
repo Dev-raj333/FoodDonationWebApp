@@ -19,29 +19,37 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var pickupRequest in Model)
+        @if(Model.Count != 0)
+        {
+            @foreach (var pickupRequest in Model)
+            {
+                <tr>
+                    <td>@serialNumber</td>
+                    <td>@pickupRequest.Donation.FoodType</td>
+                    <td>@pickupRequest.Volunteer.FirstName</td>
+                    <td>@pickupRequest.PickupTime.ToString("g")</td>
+                    <td>@pickupRequest.Notes</td>
+                    <td>@pickupRequest.PickupStatus</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Details</a>
+                        @if (User.IsInRole("Volunture"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Edit</a>
+
+                            <form asp-action="Delete" asp-route-id="@pickupRequest.Id" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Are you sure you want to cancel this request?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+                serialNumber++;
+            }
+        }else
         {
             <tr>
-                <td>@serialNumber</td>
-                <td>@pickupRequest.Donation.FoodType</td>
-                <td>@pickupRequest.Volunteer.FirstName</td>
-                <td>@pickupRequest.PickupTime.ToString("g")</td>
-                <td>@pickupRequest.Notes</td>
-                <td>@pickupRequest.PickupStatus</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Details</a>
-                    @if (User.IsInRole("Volunture"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@pickupRequest.Id" class="btn btn-primary btn-sm">Edit</a>
-
-                        <form asp-action="Delete" asp-route-id="@pickupRequest.Id" method="post" style="display:inline;"
-                              onsubmit="return confirm('Are you sure you want to cancel this request?');">
-                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                        </form>
-                    }
-                </td>
+                <td colspan="6" class="text-center">No records found</td>
             </tr>
-            serialNumber++;
         } 
     </tbody>
 </table>

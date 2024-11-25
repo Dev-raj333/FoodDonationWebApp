@@ -1,49 +1,51 @@
-﻿@model IPagedList<FoodDonationWebApp.Models.Inventory>
+﻿@model IPagedList<FoodDonationWebApp.Models.AllocatedFood>
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
-
 @{
-    ViewData["Title"] = "Inventory";
+    ViewData["Title"] = "Allocated List";
     int serialNumber = 1 + ((Model.PageNumber - 1) * Model.PageSize);
 }
-<h2>Inventory List</h2>
-
+<h2>Allocated Food Items</h2>
 <table class="table">
     <thead>
         <tr>
             <th>SN</th>
-            <th>Food Type</th>
+            <th>RecipiantName</th>
+            <th>FoodType</th>
             <th>Quantity</th>
-            <th>Description</th>
-            <th>Expiry Date</th>
-            <th>Location</th>
+            <th>DonationDate</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @if(Model.Count != 0){
+        @if(Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">No records found</td>
+            </tr>
+        }else
+        {
             @foreach (var item in Model)
             {
                 <tr>
                     <td>@serialNumber</td>
-                    <td>@item.FoodType</td>
+                    <td>@item.Recipient.FirstName @item.Recipient.LastName</td>
+                    <td>@item.RequestedFoodType</td>
                     <td>@item.Quantity</td>
-                    <td>@item.Description</td>
-                    <td>@item.ExpiryDate?.ToString("yyyy-MM-dd")</td>
-                    <td>@item.Location</td>
+                    <td>@item.DonatedDate</td>
+                    <td>
+                        <a asp-action="Create" asp-controller="DropRequest" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                    </td>
                 </tr>
-                serialNumber++;
+                serialNumber++;  
             }
-        }else
-        {
-            <tr>
-                <td colspan="6" class="text-center">No records found</td>
-            </tr>
-        }
 
+        }
+        
     </tbody>
 </table>
 <div class="d-flex justify-content-end">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+    @Html.PagedListPager(Model, page => Url.Action("AllocateFood", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
 {
     DisplayLinkToFirstPage = PagedListDisplayMode.Always,
     DisplayLinkToLastPage = PagedListDisplayMode.Always,

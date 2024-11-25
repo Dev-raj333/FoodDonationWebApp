@@ -1,4 +1,5 @@
-﻿using FoodDonationWebApp.Services.Interfaces;
+﻿using FoodDonationWebApp.Models;
+using FoodDonationWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDonationWebApp.Controllers
@@ -18,5 +19,16 @@ namespace FoodDonationWebApp.Controllers
             var inventory = await _inventoryRepository.GetAllDonationList(pageNumber,itemsPerPage);
             return View(inventory);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllocateFood(int? page, int? pageSize)
+        {
+            int pageNumber = page ?? 1;
+            int itemsPerPAge = pageSize ?? 10;
+            var allocatedItems = await _inventoryRepository.GetAllocatedFood(pageNumber,itemsPerPAge);
+            return View(allocatedItems); 
+        }
+
+        
     }
 }

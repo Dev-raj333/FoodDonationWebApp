@@ -2,6 +2,8 @@
 using FoodDonationWebApp.Models;
 using FoodDonationWebApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace FoodDonationWebApp.Services.Implementation
 {
@@ -29,17 +31,20 @@ namespace FoodDonationWebApp.Services.Implementation
             }
         }
 
-        public async Task<IEnumerable<Donation>> GetAllDonationsAsync()
+        public async Task<IPagedList<Donation>> GetAllDonationsAsync(int pageNumber, int pageSize)
         {
-            return await _context.Donations.Include(d=> d.Donor).ToListAsync();
+            var donatio =await _context.Donations.Include(d=> d.Donor).Where(d => d.Status == DonationStatus.Available).ToListAsync();
+
+            return donatio.ToPagedList(pageNumber, pageSize);
         }
 
-        public async Task<IEnumerable<Donation>> GetDonationsByDonorIdAsync(string donorId)
+        public async Task<IPagedList<Donation>> GetDonationsByDonorIdAsync(int pageNumber, int pageSize,string donorId)
         {
-            return await _context.Donations
+            var donation =  await _context.Donations
                 .Where(d => d.DonorID == donorId)
                 .Include(d => d.Donor)
                 .ToListAsync();
+            return donation.ToPagedList(pageNumber, pageSize);
         }
         public async Task<Donation> GetDonationByIdAsync(int id)
         {

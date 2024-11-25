@@ -1,15 +1,15 @@
 ﻿@using FoodDonationWebApp.ViewModels
-@model PickupRequestVM
+@model DropRequestVM
 
 @{
-    ViewData["Title"] = "Pickup Request Form";
+    ViewData["Title"] = "Drop Request Form";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="Create">
-    <input type="hidden" asp-for="DonationID" />
-
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="AllocatedFoodID" />
+    <input type="hidden" asp-for="Volunteer.LastName" />
     <div class="form-group">
         <label asp-for="VolunteerID" class="control-label">Select Volunteer</label>
         <select asp-for="VolunteerID" class="form-control">
@@ -45,7 +45,7 @@
     </div>
 </form>
 
-<a asp-action="Index" asp-controller="Donation" class="btn btn-secondary">Back to List</a>
+<a asp-action="Index" asp-controller="DropRequest" class="btn btn-secondary">Back to List</a>
 
 
 @section Scripts {

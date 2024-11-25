@@ -24,7 +24,9 @@ namespace FoodDonationWebApp.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        public DateTime DonationDate { get; set; } = DateTime.UtcNow;
         public bool FoodStatus { get; set; } = false;
+        public bool IsExpired => ExpiryDate.HasValue && ExpiryDate.Value < DateTime.UtcNow;
     }
     
 }

@@ -66,12 +66,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9uYXRpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/DropRequest/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHJvcFJlcXVlc3RcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/DropRequest/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHJvcFJlcXVlc3RcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/DropRequest/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHJvcFJlcXVlc3RcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/Inventory/AllocateFood.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5XEFsbG9jYXRlRm9vZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/Inventory/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dotnet/FoodDonationWebApp/FoodDonationWebApp/Views/Inventory/Index.cshtml]

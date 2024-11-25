@@ -28,9 +28,14 @@ namespace FoodDonationWebApp.Models
 
     public enum FoodType
     {
-        Fresh,
-        Packaged,
-        Bakery,
-        Other
+        Grains = 1,
+        Vegetables = 2,
+        Fruits = 3,
+        Dairy = 4,
+        Meat = 5,
+        CannedGoods = 6,
+        Beverages = 7,
+        Snacks = 8,
+        Other = 9
     }
 }

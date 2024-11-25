@@ -17,16 +17,17 @@ namespace FoodDonationWebApp.Data
         public DbSet<DropRequest> DropRequests { get; set; }
         public DbSet<Inventory> inventories { get; set; }
         public DbSet<RecipientRequest> RecipientRequests { get; set; }
+        public DbSet<AllocatedFood> AllocatedFoods { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<AllocatedFood>()
+                .HasKey(d => d.Id);
             modelBuilder.Entity<RecipientRequest>()
                 .HasOne(r => r.Recipient)
                 .WithMany(u => u.RecipientRequests)
                 .HasForeignKey(r => r.RecipientId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }

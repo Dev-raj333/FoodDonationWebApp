@@ -70,7 +70,7 @@ namespace FoodDonationWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, RecipientRequest recipientRequest)
+        public async  Task<IActionResult> Edit(int id, RecipientRequest recipientRequest)
         {
             if (id != recipientRequest.Id)
             {

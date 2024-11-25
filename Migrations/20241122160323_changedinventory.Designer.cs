@@ -4,6 +4,7 @@ using FoodDonationWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDonationWebApp.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    partial class FoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241122160323_changedinventory")]
+    partial class changedinventory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,37 +24,6 @@ namespace FoodDonationWebApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FoodDonationWebApp.Models.AllocatedFood", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DonatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompletedDonation")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RecipientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RequestedFoodType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.ToTable("AllocatedFoods");
-                });
 
             modelBuilder.Entity("FoodDonationWebApp.Models.ApplicationUser", b =>
                 {
@@ -183,11 +155,11 @@ namespace FoodDonationWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AllocatedFoodID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DonationID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .IsRequired()
@@ -209,7 +181,7 @@ namespace FoodDonationWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AllocatedFoodID");
+                    b.HasIndex("DonationID");
 
                     b.HasIndex("VolunteerID");
 
@@ -475,17 +447,6 @@ namespace FoodDonationWebApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FoodDonationWebApp.Models.AllocatedFood", b =>
-                {
-                    b.HasOne("FoodDonationWebApp.Models.ApplicationUser", "Recipient")
-                        .WithMany()
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipient");
-                });
-
             modelBuilder.Entity("FoodDonationWebApp.Models.Donation", b =>
                 {
                     b.HasOne("FoodDonationWebApp.Models.ApplicationUser", "Donor")
@@ -499,9 +460,9 @@ namespace FoodDonationWebApp.Migrations
 
             modelBuilder.Entity("FoodDonationWebApp.Models.DropRequest", b =>
                 {
-                    b.HasOne("FoodDonationWebApp.Models.AllocatedFood", "AllocatedFood")
+                    b.HasOne("FoodDonationWebApp.Models.Donation", "Donation")
                         .WithMany()
-                        .HasForeignKey("AllocatedFoodID")
+                        .HasForeignKey("DonationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -511,7 +472,7 @@ namespace FoodDonationWebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AllocatedFood");
+                    b.Navigation("Donation");
 
                     b.Navigation("Volunteer");
                 });
