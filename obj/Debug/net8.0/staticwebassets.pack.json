@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\FoodDonationWebApp.bundle.scp.css",
-      "PackagePath": "staticwebassets\\FoodDonationWebApp.bundle.scp.css"
+      "PackagePath": "staticwebassets\\FoodDonationWebApp.jg4du10i4q.bundle.scp.css"
     },
     {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\1fc021f2-e96a-4a1b-965c-04ef2cec95c9.png",
@@ -21,12 +21,24 @@
       "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\97b82da9-9aeb-43c0-94cf-60fffc9802ed.png"
     },
     {
+      "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\c9cc2a41-71b4-4eb3-8d77-3b85437ed975.png",
+      "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\c9cc2a41-71b4-4eb3-8d77-3b85437ed975.png"
+    },
+    {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\d60dafe4-5914-44cc-92d6-029c6fba07c0.png",
       "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\d60dafe4-5914-44cc-92d6-029c6fba07c0.png"
     },
     {
+      "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\d781a027-24c1-4fd5-ba8d-32c3b56768e4.png",
+      "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\d781a027-24c1-4fd5-ba8d-32c3b56768e4.png"
+    },
+    {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\e36a0af0-ba04-45a9-b39c-63aebb9b01ad.png",
       "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\e36a0af0-ba04-45a9-b39c-63aebb9b01ad.png"
+    },
+    {
+      "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\eea05fcd-5656-4eb4-a1ca-f55d6b7b1264.png",
+      "PackagePath": "staticwebassets\\FoodAppImage\\ProfilePicture\\eea05fcd-5656-4eb4-a1ca-f55d6b7b1264.png"
     },
     {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\FoodAppImage\\ProfilePicture\\f5cac20a-89c4-412c-b289-420f13466351.png",
@@ -271,6 +283,10 @@
     {
       "Id": "D:\\Dotnet\\FoodDonationWebApp\\FoodDonationWebApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.FoodDonationWebApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.FoodDonationWebApp.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -11,5 +11,6 @@ namespace FoodDonationWebApp.Services.Interfaces
         Task AddPickupRequestAsync(PickupRequest pickupRequest);
         Task UpdatePickupRequestAsync(PickupRequest pickupRequest);
         Task DeletePickupRequestAsync(int id);
+        Task<(double Latitude, double Longitude)?> GetDonorLocationAsync(string userId);
     }
 }

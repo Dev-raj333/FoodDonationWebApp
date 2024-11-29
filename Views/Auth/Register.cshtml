@@ -46,13 +46,36 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Address" class="form-label"></label>
-                <input asp-for="Address" class="form-control" type="text" placeholder="Enter Address" />
+                <input asp-for="Address" id="Address" class="form-control" type="text" placeholder="Enter Address" />
                 <span asp-validation-for="Address" class=" = text-danger"></span>
+            </div>
+            <span>Choose street from map...</span>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="StreetName" class="form-label">Street Name</label>
+                            <input type="text" id="StreetName" asp-for="StreetName" name="StreetName" class="form-control" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Latitude" class="form-label">Latitude</label>
+                            <input type="text" id="Latitude" asp-for="Latitude" name="Latitude" class="form-control" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Longitude" class="form-label">Longitude</label>
+                            <input type="text" id="Longitude" asp-for = "Longitude" name="Longitude" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div id="map" style="height: 300px;"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
                 <label asp-for="PhoneNo" class="form-label"></label>
-                <input asp-for="PhoneNo" class="form-control" type = "text" placeholder="Enter Contact no"/>
+                <input asp-for="PhoneNo" class="form-control" type="text" placeholder="Enter Contact no" maxlength="10" />
                 <span asp-validation-for="PhoneNo" class="text-danger"></span>
             </div>
 
@@ -71,7 +94,7 @@
                 <button type="submit" class="btn btn-primary btn-lg">Register</button>
             </div>
         </form>
-    </div>
+    </div> 
     <div class="card-footer text-center">
         <small class="text-muted">Fields marked with <span class="text-danger">*</span> are required.</small>
     </div>
@@ -79,3 +102,58 @@
 @section scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
 }
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script>
+     
+
+    var map = L.map('map', {
+        center: kathmanduCenter,
+        zoom: 13,
+        maxBounds: kathmanduBounds, 
+        maxZoom: 19, 
+        minZoom: 12  
+    });
+    //var map = L.map('map').setView([27.7172, 85.3240], 13); // Zoom level 13 is ideal for a city-level view
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+     var marker;
+    function fetchAddress(lat, lng) {
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.address) {
+                    document.getElementById('StreetName').value = data.address.road || "Unknown Street";
+                } else {
+                    document.getElementById('StreetName').value = "Street not found";
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching address:", err);
+                document.getElementById('StreetName').value = "Error fetching street name";
+            });
+    }
+
+    // Handle map click event
+    map.on('click', function (e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        document.getElementById('Latitude').value = lat;
+        document.getElementById('Longitude').value = lng;
+
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+
+        fetchAddress(lat, lng);
+    });
+</script>

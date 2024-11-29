@@ -74,7 +74,10 @@ namespace FoodDonationWebApp.Controllers.Authentication
                         LastName = model.LastName,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNo,
-                        Profile =  profilePicture
+                        Profile =  profilePicture,
+                        StreetName = model.StreetName,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
@@ -85,7 +88,7 @@ namespace FoodDonationWebApp.Controllers.Authentication
                         }
                         await _userManager.AddToRoleAsync(user, model.SelectedRole);
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "ListUser");
                     }
                     if (result.Errors.Count() > 0)
                     {
@@ -99,9 +102,8 @@ namespace FoodDonationWebApp.Controllers.Authentication
                 {
                     foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                     {
-                        // Log the error message (this can be done via a logging service)
                         var errorMessage = error.ErrorMessage;
-                        var exception = error.Exception; // Useful if there was an exception during model binding
+                        var exception = error.Exception;
                         Console.WriteLine($"Error: {errorMessage} | Exception: {exception?.Message}");
                     }
                 }
@@ -209,7 +211,10 @@ namespace FoodDonationWebApp.Controllers.Authentication
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
                 Roles = rolesAsSelectList,
-                ProilePicture = user.Profile
+                ProilePicture = user.Profile,
+                StreetName = user.StreetName,
+                Latitude = user.Latitude,
+                Longitude = user.Longitude 
             };
 
             return View(model);
@@ -233,15 +238,16 @@ namespace FoodDonationWebApp.Controllers.Authentication
                 user.PhoneNumber = model.PhoneNumber;
                 user.Address = model.Address;
                 user.Profile = model.ProilePicture;
-               
-                // Update the user in the database
+                user.StreetName = model.StreetName;
+                user.Latitude = model.Latitude;
+                user.Longitude = model.Longitude;
+
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("ListUser");
                 }
 
-                // If there were errors during the update, display them
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -264,7 +270,6 @@ namespace FoodDonationWebApp.Controllers.Authentication
             {
                 return RedirectToAction("ListUser");
             }
-            // Handle deletion failure
             return View("Error");
         }
         public IActionResult View(string id)
@@ -276,7 +281,6 @@ namespace FoodDonationWebApp.Controllers.Authentication
             }
             var roles = _userManager.GetRolesAsync(user).Result;
             var role = roles.FirstOrDefault();
-            // Map ApplicationUser to UserProfileVM
             var model = new EditUserVM
             {
                 FirstName = user.FirstName,
@@ -284,11 +288,11 @@ namespace FoodDonationWebApp.Controllers.Authentication
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
-                ProilePicture = user.Profile, // Assuming user has this property
-                SelectedRole = role // If you store roles in the user model
+                ProilePicture = user.Profile, 
+                SelectedRole = role
             };
 
-            return View(model); // Pass the ViewModel to the view
+            return View(model); 
         }
 
     }

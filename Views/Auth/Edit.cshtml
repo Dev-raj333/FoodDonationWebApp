@@ -10,7 +10,6 @@
         <form asp-action="Edit" asp-controller="Auth" method="post" enctype="multipart/form-data" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-            <!-- Display existing First Name -->
             <div class="mb-3">
                 <label asp-for="FirstName" class="form-label"></label>
                 <span class="text-danger">*</span>
@@ -18,7 +17,6 @@
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
 
-            <!-- Display existing Last Name -->
             <div class="mb-3">
                 <label asp-for="LastName" class="form-label"></label>
                 <span class="text-danger">*</span>
@@ -26,7 +24,6 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
 
-            <!-- Display existing Email -->
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <span class="text-danger">*</span>
@@ -34,52 +31,56 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <!-- Password fields are hidden in edit mode -->
-            @* @if (Model.IsEditMode == false)
-            {
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label"></label>
-                    <span class="text-danger">*</span>
-                    <input asp-for="Password" class="form-control" type="password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="ConfirmPassword" class="form-label"></label>
-                    <span class="text-danger">*</span>
-                    <input asp-for="ConfirmPassword" class="form-control" type="password" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-            } *@
-
-            <!-- Display existing Address -->
             <div class="mb-3">
                 <label asp-for="Address" class="form-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
 
-            <!-- Display existing Phone Number -->
             <div class="mb-3">
                 <label asp-for="PhoneNumber" class="form-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
 
-            <!-- Display existing Role -->
             <div class="mb-3">
                 <label asp-for="SelectedRole" class="form-label"></label>
                 <select asp-for="SelectedRole" class="form-control" asp-items="Model.Roles"></select>
                 <span asp-validation-for="SelectedRole" class="text-danger"></span>
             </div>
+
             <div class="mb-4">
                 <label asp-for="ProilePicture" class="form-label"></label>
                 <input asp-for="ProilePicture" class="form-control" type="file" />
                 <span asp-validation-for="ProilePicture"></span>
             </div>
+
+            <span>Choose street from map...</span>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="StreetName" class="form-label">Street Name</label>
+                            <input type="text" id="StreetName" asp-for="StreetName" name="StreetName" class="form-control" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Latitude" class="form-label">Latitude</label>
+                            <input type="text" id="Latitude" asp-for="Latitude" name="Latitude" class="form-control" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Longitude" class="form-label">Longitude</label>
+                            <input type="text" id="Longitude" asp-for="Longitude" name="Longitude" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div id="map" style="height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
-
             </div>
         </form>
     </div>
@@ -90,4 +91,63 @@
 
 @section scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        var kathmanduCenter = [27.7172, 85.3240];
+        var kathmanduBounds = [
+            [27.5667, 85.1],
+            [27.8667, 85.5]
+        ];
+
+        var map = L.map('map', {
+            center: kathmanduCenter,
+            zoom: 13,
+            maxBounds: kathmanduBounds,
+            maxZoom: 19,
+            minZoom: 12
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker;
+
+        function fetchAddress(lat, lng) {
+            const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.address) {
+                        document.getElementById('StreetName').value = data.address.road || "Unknown Street";
+                    } else {
+                        document.getElementById('StreetName').value = "Street not found";
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching address:", err);
+                    document.getElementById('StreetName').value = "Error fetching street name";
+                });
+        }
+
+        // Handle map click event
+        map.on('click', function (e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+
+            document.getElementById('Latitude').value = lat;
+            document.getElementById('Longitude').value = lng;
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+
+            fetchAddress(lat, lng);
+        });
+    </script>
 }

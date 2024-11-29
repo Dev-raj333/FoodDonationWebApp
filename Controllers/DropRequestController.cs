@@ -1,4 +1,5 @@
 ﻿using FoodDonationWebApp.Models;
+using FoodDonationWebApp.Services.Implementation;
 using FoodDonationWebApp.Services.Interfaces;
 using FoodDonationWebApp.ViewModel;
 using FoodDonationWebApp.ViewModels;
@@ -76,6 +77,28 @@ namespace FoodDonationWebApp.Controllers
             ViewBag.Volunteers = volunteers.Select(v => new { v.Id, v.FirstName, v.LastName }).ToList();
             return View(dropRequests);
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetRecipiantLocation(string donorId)
+        {
+            var donor = await _dropRequest.GetRecipiantLocationAsync(donorId);
+            if (donor == null)
+            {
+                return Json(new { success = false, message = "Location not found" });
+            }
+
+            return Json(new { success = true, latitude = donor.Value.Latitude, longitude = donor.Value.Longitude });
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var pickupRequest = await _dropRequest.GetDropRequestByIdAsync(id);
+            if (pickupRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(pickupRequest);
+        }
     }
 }

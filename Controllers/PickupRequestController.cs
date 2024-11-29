@@ -4,6 +4,7 @@ using FoodDonationWebApp.ViewModel;
 using FoodDonationWebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList.Mvc.Core;
@@ -130,5 +131,18 @@ namespace FoodDonationWebApp.Controllers
             await _pickupRequestRepository.DeletePickupRequestAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDonorLocation(string donorId)
+        {
+            var donor = await _pickupRequestRepository.GetDonorLocationAsync(donorId);
+            if (donor == null )
+            {
+                return Json(new { success = false, message = "Location not found" });
+            }
+
+            return Json(new { success = true, latitude = donor.Value.Latitude, longitude = donor.Value.Longitude });
+        }
+
     }
 }

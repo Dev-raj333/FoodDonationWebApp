@@ -127,4 +127,13 @@ a i {
     .content {
         margin-left: 0;
     }
+
+    .leaflet-container {
+        z-index: 0; /* Keeps the map below modal controls */
+    }
+
+    .modal {
+        z-index: 1050;
+    }
+
 }

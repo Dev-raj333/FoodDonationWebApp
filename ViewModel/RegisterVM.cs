@@ -39,5 +39,14 @@ namespace FoodDonationWebApp.ViewModel
         [Display(Name = "Profile")]
         public IFormFile? Profile { get; set; }
 
+        [Display(Name = "Street Name")]
+        public string? StreetName { get; set; }
+
+        [Display(Name = "Latitude")]
+        public double? Latitude { get; set; }
+
+        [Display(Name = "Longitude")]
+        public double? Longitude { get; set; }
+
     }
 }

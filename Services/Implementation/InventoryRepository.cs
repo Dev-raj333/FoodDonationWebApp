@@ -60,7 +60,7 @@ namespace FoodDonationWebApp.Services.Implementation
         {
             return await _foodDbContext.inventories
                 .Where(i => i.FoodType == foodType && !i.FoodStatus && (i.ExpiryDate == null || i.ExpiryDate > DateTime.UtcNow))
-                .OrderBy(i => i.ExpiryDate.HasValue ? i.ExpiryDate.Value : i.DonationDate) // FIFO sorting
+                .OrderBy(i => i.ExpiryDate.HasValue ? i.ExpiryDate.Value : i.DonationDate)
                 .ToListAsync();
         }
         public async Task<IPagedList<Inventory>> GetAllDonationList(int pageNumber, int pageSize)

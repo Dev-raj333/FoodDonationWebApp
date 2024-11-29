@@ -28,5 +28,11 @@ namespace FoodDonationWebApp.ViewModel
         public List<SelectListItem>? Roles { get; set; }
 
         public string? ProilePicture { get; set; }
+
+        public string? StreetName { get; set; }
+
+        public double? Latitude { get; set; }
+
+        public double? Longitude { get; set; }
     }
 }

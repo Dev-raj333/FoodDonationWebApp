@@ -9,5 +9,6 @@ namespace FoodDonationWebApp.Services.Interfaces
         Task<DropRequest> GetDropRequestByIdAsync(int id);
         Task AddDropRequestAsync(DropRequest dropRequest);
         Task UpdateDropRequesyAsync(DropRequest dropRequest);
+        Task<(double Latitude, double Longitude)?> GetRecipiantLocationAsync(string userId);
     }
 }

@@ -41,6 +41,19 @@ namespace FoodDonationWebApp.Services.Implementation
                                            .FirstOrDefaultAsync(d => d.Id == id);
         }
 
+        public async Task<(double Latitude, double Longitude)?> GetRecipiantLocationAsync(string userId)
+        {
+            var result = await _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new { u.Latitude, u.Longitude })
+                .FirstOrDefaultAsync();
+            if (result == null || result.Latitude == null || result.Longitude == null)
+            {
+                return null;
+            }
+            return (result.Latitude.Value, result.Longitude.Value);
+        }
+
         public async Task UpdateDropRequesyAsync(DropRequest dropRequest)
         {
             var dropRequests = await _context.DropRequests.FindAsync(dropRequest.Id);
